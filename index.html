@@ -1,21 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR World</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    /* Overlay de mensaje en pantalla */
+    #mensaje-overlay {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 24px 32px;
+      border-radius: 12px;
+      font-family: sans-serif;
+      font-size: 18px;
+      text-align: center;
+      z-index: 9999;
+      max-width: 320px;
+      pointer-events: all;
+    }
+    #mensaje-overlay button {
+      margin-top: 16px;
+      padding: 8px 24px;
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <a-scene arjs>
-        <a-marker preset="hiro">
-            <a-entity position="0 0 0" scale="0.1 0.1 0.1">
-                <a-sphere radius="5" color="blue"></a-sphere>
-            </a-entity>
-        </a-marker>
-        <a-entity camera position="0 0 0"></a-entity>
-    </a-scene>
+
+  <!-- Overlay HTML para mensajes -->
+  <div id="mensaje-overlay">
+    <p id="mensaje-texto"></p>
+    <button onclick="cerrarMensaje()">Cerrar</button>
+  </div>
+
+  <a-scene
+    arjs="sourceType: webcam; debugUIEnabled: false;"
+    embedded
+    renderer="logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false">
+
+    <!-- Assets: carga tu modelo .glb aquí -->
+    <a-assets>
+      <a-asset-item id="mi-mundo" src="./models/earth.glb"></a-asset-item>
+    </a-assets>
+
+    <a-marker preset="hiro">
+
+      <!--
+        Entidad padre: el modelo del mundo.
+        Los botones son entidades HIJAS — rotarán con el modelo.
+      -->
+      <a-entity
+        id="mundo-padre"
+        gltf-model="#mi-mundo"
+        position="0 0 0"
+        scale="0.5 0.5 0.5"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+
+        <!--
+          BOTÓN 1 — posicionado "flotando" cerca del modelo.
+          Ajusta position según la geometría de tu modelo.
+          El texto usa troika-three-text para mejor renderizado.
+        -->
+        <a-entity
+          id="btn1"
+          class="clickable"
+          geometry="primitive: plane; width: 0.8; height: 0.3"
+          material="color: #4A90D9; opacity: 0.9; side: double"
+          position="-1 0.5 0"
+          text="value: Información; align: center; color: white; width: 3"
+          datos-mensaje="¡Bienvenido al mundo AR! Este es el botón de información.">
+        </a-entity>
+
+        <!-- BOTÓN 2 -->
+        <a-entity
+          id="btn2"
+          class="clickable"
+          geometry="primitive: plane; width: 0.8; height: 0.3"
+          material="color: #E74C3C; opacity: 0.9; side: double"
+          position="0 0.5 1"
+          text="value: Detalles; align: center; color: white; width: 3"
+          datos-mensaje="Aquí van los detalles del mundo. Puedes personalizar este mensaje.">
+        </a-entity>
+
+        <!-- BOTÓN 3 -->
+        <a-entity
+          id="btn3"
+          class="clickable"
+          geometry="primitive: plane; width: 0.8; height: 0.3"
+          material="color: #27AE60; opacity: 0.9; side: double"
+          position="1 0.5 0"
+          text="value: Acerca de; align: center; color: white; width: 3"
+          datos-mensaje="Este mundo fue creado con AR.js y A-Frame.">
+        </a-entity>
+
+      </a-entity>
+    </a-marker>
+
+    <!--
+      Cámara con raycaster activado.
+      El cursor emite rayos al hacer click o tap.
+    -->
+    <a-entity camera>
+      <a-entity
+        cursor="fuse: false; rayOrigin: mouse"
+        raycaster="objects: .clickable; recursive: false">
+      </a-entity>
+    </a-entity>
+
+  </a-scene>
+
+  <script>
+    // Muestra el mensaje en el overlay HTML
+    function mostrarMensaje(texto) {
+      document.getElementById('mensaje-texto').textContent = texto;
+      document.getElementById('mensaje-overlay').style.display = 'block';
+    }
+
+    function cerrarMensaje() {
+      document.getElementById('mensaje-overlay').style.display = 'none';
+    }
+
+    // Registra el componente de click para los botones
+    AFRAME.registerComponent('boton-ar', {
+      init: function () {
+        this.el.addEventListener('click', () => {
+          const mensaje = this.el.getAttribute('datos-mensaje');
+          mostrarMensaje(mensaje);
+        });
+
+        // Efecto hover: cambia opacidad al pasar el cursor
+        this.el.addEventListener('mouseenter', () => {
+          this.el.setAttribute('material', 'opacity', 0.7);
+        });
+        this.el.addEventListener('mouseleave', () => {
+          this.el.setAttribute('material', 'opacity', 0.9);
+        });
+      }
+    });
+
+    // Aplica el componente a todos los botones al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.clickable').forEach(el => {
+        el.setAttribute('boton-ar', '');
+      });
+    });
+  </script>
+
 </body>
 </html>
