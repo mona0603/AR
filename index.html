@@ -1,59 +1,29 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AR Cubo</title>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.4.2/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
-    <style>
-      * { margin: 0; padding: 0; }
-      body { overflow: hidden; }
-    </style>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-
-    <a-scene
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-      vr-mode-ui="enabled: false"
-      renderer="logarithmicDepthBuffer: true;"
-    >
-
-      <!-- Marcador Hiro (el clásico de AR.js) -->
-      <a-marker preset="hiro">
-
-        <!-- Cubo azul girando -->
-        <a-box
-          position="0 0.5 0"
-          width="1" height="1" depth="1"
-          color="#5C6BC0"
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear"
-        ></a-box>
-
-        <!-- Cubo rojo interior -->
-        <a-box
-          position="0 0.5 0"
-          width="0.5" height="0.5" depth="0.5"
-          color="#EF5350"
-          animation="property: rotation; to: 0 -360 360; loop: true; dur: 2000; easing: linear"
-        ></a-box>
-
-        <!-- Texto -->
-        <a-text
-          value="AR Cubo!"
-          position="0 1.3 0"
-          align="center"
-          color="#ffffff"
-          width="3"
-          animation="property: position; from: 0 1.3 0; to: 0 1.6 0; loop: true; dur: 1000; dir: alternate; easing: easeInOutSine"
-        ></a-text>
-
-      </a-marker>
-
-      <a-entity camera></a-entity>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+    <a-scene arjs>
+        <a-marker preset="hiro">
+            <a-entity position="0 0 0" scale="0.1 0.1 0.1">
+              <a-sphere radius="5" color="blue"></a-sphere>
+            </a-sphere>
+        </a-marker>
+        <a-entity camera position="0 0 0"></a-entity>
     </a-scene>
-
-  </body>
+</body>
 </html>
+
+<!--<a-entity
+    position="0 0 0"
+    scale="1"
+    gltf-model="https://raw.githubusercontent.com/pedrovelasquez9/ARJS-example/main/tie.glb"
+></a-entity>-->
+
+<!--raw.githubusercontent.com/username/repo-name/branch-name/path-->
