@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Grandstander:ital,wght@0,100..900;1,100..900&family=Pangolin&display=swap');
+
+/* =============================================
+   RESET
+   ============================================= */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Grandstander", cursive;
+}
+
+/* =============================================
+   CANVAS PARTÍCULAS
+   ============================================= */
+#star-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9990;
+}
+
+/* =============================================
+   SALIR
+   ============================================= */
+#close{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 16px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    width: 35px;
+
+    
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 5;
+    text-decoration: none;
+}
+#close span{
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* =============================================
+   OVERLAY MENSAJE
+   ============================================= */
+#mensaje-overlay {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  z-index: 9999;
+  text-align: center;
+}
+
+#mensaje-overlay p {
+  color: white;
+  /* font-size: 24px; */
+  margin: 0 0 10px;
+}
+
+#mensaje-overlay button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  /* font-size: 16px; */
+}
+
+/* =============================================
+   PANEL ANIMACIONES (derecha)
+   ============================================= */
+#animation-controls {
+  position: fixed;
+  right: 8px;
+  top: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9998;
+}
+.btn-img {
+  width: 45px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  padding: 7px;
+  cursor: pointer;
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+  background-color: white; 
+}
+.btn-img img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  display: block;
+  border-radius: 100%;
+}
+/* El color va en la imagen, no en el contenedor */
+.btn-img:nth-child(1) img { background-color: #4CAF50; }
+.btn-img:nth-child(2) img { background-color: #FF9800; }
+.btn-img:nth-child(3) img { background-color: #2196F3; }
+.btn-img:nth-child(4) img { background-color: #9C27B0; }
+
+/* =============================================
+   PANEL TEXTURAS (izquierda)
+   ============================================= */
+#texture-controls {
+  position: fixed;
+  left: 8px;
+  top: 10%;
+  /* transform: translateY(-50%); */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9998;
+}
+.country-w{
+  width: 55px;
+  aspect-ratio: 1/1;
+  background-color: white;
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+  padding: 5px;
+  border-radius: 100%;
+}
+.country-img img{
+  display: block;
+  object-fit: contain;
+  width: 100%;
+  border-radius: 100%;
+  background: linear-gradient(180deg, #8bd636, #7cc057);
+}
+
+#texture-controls button {
+  /* padding: 8px 12px; */
+  color: white;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  /* font-size: 12px; */
+  width: 55px;
+  aspect-ratio: 1/1;
+  font-size: 18px;
+  background: linear-gradient(180deg, #8bd636, #7cc057);
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+
+.lvl-wrapper,
+.p-wrapper,
+.t-wrapper{
+  background: white;
+  padding: 5px;
+  border-radius: 25px;
+  /* color: black; */
+  /* font-size: 12px; */
+  text-align: center;
+  
+  /* opacity: 0; */
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.lvl-wrapper {
+  display: block; /* ocupa todo el ancho disponible */
+}
+.p-wrapper,
+.t-wrapper {
+  display: inline-flex; /* ← ancho según contenido */
+  align-self: flex-start; /* ← evita que se estire en el flex column */
+}
+.lvl-ui,
+.p-ui,
+.t-ui{
+  /* background-color: red; */
+  display: flex;
+  gap: 10px;
+}
+.lvl-no,
+.p-no,
+.t-no{
+  background: linear-gradient(180deg, #8bd636, #7cc057);
+  border-radius: 15px;
+  padding: 7px 15px;
+
+  font-weight: 700;
+  color: #126d25;
+}
+.lvl-no span:nth-child(1){color: #126d25;}
+.lvl-no span:nth-child(2){color: white;}
+
+.lvl-bar,
+.p-bar,
+.t-bar{
+  /* background-color: yellow; */
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  gap: 5px;
+  margin-right: 10px;
+}
+.p-bar span,
+.t-bar span{
+  color: grey;
+}
+.lvlb{
+  background-color: rgb(68, 68, 68);
+  /* height: 17px; */
+  flex: 1;
+  width: 80px;
+  border-radius: 10px;
+  border: none;
+}
+.lvlb-progress{
+  height: 100%;
+  width: 0%;
+  background-color: rgb(255, 187, 60);
+  border-radius: 10px;
+}
+.lvl-bar span{
+  font-size: small;
+  display: flex;
+  color: grey;
+}
+
+/* =============================================
+   BOTONES PREV / NEXT
+   ============================================= */
+.btn-prev-next {
+    position: fixed;
+    bottom: 35%;
+    left: 50%;
+
+    transform: translateX(-50%);
+    display: flex;
+    
+    /* background-color: green; */
+
+    width: 70%;
+    justify-content: space-between;
+    z-index: 9998;
+}
+#prev-btn, #next-btn{
+  border-radius: 100%;
+  font-size: 16px;
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+  width: 35px;
+  background-color: white;
+  aspect-ratio: 1/1;
+  padding: 5px;
+  z-index: 5;
+}
+#prev-btn span, #next-btn span{
+  background: linear-gradient(180deg, #8bd636, #7cc057);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* =============================================
+   INFO DEL PLAYER
+   ============================================= */
+
+.ui-player {
+  position: fixed;
+
+  width: 90%;
+  padding: 10px;
+
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 15px;
+  z-index: 9998;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+.ui-header {
+  display: flex;
+  flex-direction: column;
+}
+.ui-title {
+    margin-top: -50px;
+
+    font-size: 32px;
+    font-weight: 900;
+    background-color: white;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+    padding: 7px;
+    border-radius: 40px;
+
+    width: 80%;
+}
+.ui-wrap-title{
+    display: flex;
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 40px;
+}
+.uic{
+    background-color: white;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 50px;
+    position: relative;
+}
+.uic > img {
+    width: 70px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    aspect-ratio: 1/1;
+    position: absolute;
+}
+.ui-name{
+    border-radius: 40px;
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    font-size: large;
+}
+
+#player-name {
+    background: repeating-linear-gradient( 
+        45deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.3) 5px, #ffffff 5px, 
+        #ffffff 25px);
+
+    margin-top: 15px;
+    font-size: 22px;
+    padding: 20px;
+    /* background-color: green; */
+    border: 2px dashed grey;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    opacity: .3;
+}
+#player-name.activo {
+  font-size: 12px; /* tamaño cuando hay info */
+}

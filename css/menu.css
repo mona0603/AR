@@ -1,0 +1,473 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Grandstander:ital,wght@0,100..900;1,100..900&family=Pangolin&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Grandstander", cursive;
+    background: linear-gradient(360deg, #8bd636, #9fd184);
+    position: relative;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Patrón de fondo animado */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, #ffffff2c 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, #ffffff2c 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, #ffffff2c 25%, transparent 25%),
+        linear-gradient(45deg,  #ffffff2c 25%, transparent 25%);
+    background-size: 100px 100px;
+    pointer-events: none;
+    animation: gradient 10s linear infinite;
+}
+
+/* ── Main container ─────────────────────────────────────── */
+.menu-container {
+    text-align: center;
+    height: 100%;
+    width: 90%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ── Header / footer bars ───────────────────────────────── */
+.mc-up {
+    color: white;
+}
+
+.mc-up.dos {
+    background-color: white;
+    color: #9ecd85;
+    border-radius: 70px 70px 0px 0px;
+    font-size: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.mc-up h1 {
+    font-size: 50px;
+    font-weight: 900;
+    background-color: rgba(255, 255, 255);
+    border-radius: 0px 0px 70px 70px;
+    color: #9ecd85;
+}
+
+/* ── Button group ───────────────────────────────────────── */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.subtitle {
+    font-size: medium;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: white;
+}
+
+.bg-group {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-index,
+.btn-stars,
+.btn-dns {
+    position: relative;
+    background-color: white;
+    border-radius: 15px;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Card images ────────────────────────────────────────── */
+.bgg-image,
+.bgg-image-stars {
+    width: 100%;
+    background: linear-gradient(135deg, #84cc68 0%, #126d25 100%);
+    border-radius: 10px 10px 60px 10px;
+    flex: 1;
+    position: relative;
+}
+
+.bgg-image img,
+.bgg-image-stars img {
+    position: absolute;
+    width: 120px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bgg-p,
+.bgg-p-stars p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: #126d25;
+    width: 100%;
+}
+
+/* ── DNS card ───────────────────────────────────────────── */
+.bgg-p-dns {
+    font-size: 22px;
+    font-weight: 900;
+    display: inline-flex;
+    gap: 80px;
+    color: #db7c0e;
+}
+
+.bgg-image-dns {
+    height: 100px;
+    width: 100%;
+    background: linear-gradient(135deg, #ffda74 0%, #db7c0e 100%);
+    border-radius: 10px 10px 60px 10px;
+    position: relative;
+}
+
+.bgg-image-dns img {
+    position: absolute;
+    width: 120px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ── Play buttons ───────────────────────────────────────── */
+.bgg-play {
+    background-color: white;
+    border-radius: 100%;
+    width: 70px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+
+.bgg-play.uno {
+    right: 0%;
+    top: 0%;
+    transform: translate(20%, -50%);
+}
+
+.bgg-play.dos {
+    right: 0%;
+    top: 0%;
+    transform: translate(20%, -50%);
+}
+
+.bgg-play.tres {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.bgg-play img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bggp {
+    background: linear-gradient(135deg, #92d677 0%, #318b30 100%);
+    border-radius: 100%;
+}
+
+.bggp.tres {
+    background: linear-gradient(135deg, #fff674 0%, #e68414 100%);
+}
+
+/* ── Overlay ────────────────────────────────────────────── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ── Menú expandible ────────────────────────────────────── */
+.menu-expand {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 90%;
+    background: white;
+    border-radius: 70px 70px 0 0;
+    transform: translate(-50%, 100%);
+    transition: transform 0.4s ease;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px 0px 10px;
+}
+
+.menu-expand.active {
+    transform: translate(-50%, 0);
+}
+
+/* Header verde del menú */
+.menu-t {
+    display: block;
+    font-weight: 900;
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 70px 70px 0 0;
+    width: 100%;
+    padding: 20px 0px 10px 0px;
+    font-size: 42px;
+    color: white;
+    text-align: center;
+
+    margin-bottom: 10px;
+}
+
+/* Botón cerrar (X rojo) — aparece solo cuando el menú está activo */
+#closeMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(10%, -10%);
+    background: white;
+    border-radius: 100%;
+    width: 50px;
+    aspect-ratio: 1/1;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.menu-expand.active #closeMenu {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#closeMenu p {
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    border-radius: 100%;
+    font-weight: bold;
+    color: white;
+}
+
+/* ── Contenido del menú ─────────────────────────────────── */
+.menu-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* padding: 20px 10px; */
+    /* background-color: red; */
+}
+
+/* Fila de switches */
+.mc-sfx-music {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 16px;
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px dashed rgba(128, 128, 128, 0.3);
+
+    border-radius: 15px;
+
+    background: repeating-linear-gradient( 
+        45deg, rgba(128, 128, 128, 0.1), rgba(128, 128, 128, 0.1) 5px, #ffffff 5px, 
+        #ffffff 25px);
+}
+
+/* ── Switch (pill) ──────────────────────────────────────────
+   Estado OFF: fondo rosa/rojo, thumb a la izquierda
+   Estado ON:  fondo verde,     thumb a la derecha
+────────────────────────────────────────────────────────── */
+.mc-switch-sfx,
+.mc-switch-music {
+    position: relative;
+    width: 110px;
+    height: 50px;
+    border-radius: 999px;
+    background-color: #ec7a7a;
+    /* border-top: 4px solid rgba(0, 0, 0, 0.3); */
+    box-shadow: inset 0 5px 2px rgba(0,0,0,0.2), 0 5px 2px rgba(0,0,0,0.4);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+}
+
+/* ON → verde */
+.mc-switch-sfx.on,
+.mc-switch-music.on {
+    background-color: #3696d6;
+}
+
+/* ── Thumb (círculo amarillo que se desliza) ────────────────
+   OFF: left: 5px  → pegado a la izquierda
+   ON:  left: calc(100% - 41px) → pegado a la derecha
+────────────────────────────────────────────────────────── */
+.toggle-thumb {
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: white;
+    padding: 7px;
+    box-shadow: 0 3px 0px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.1);
+    position: absolute;
+    left: 0px;                          /* posición OFF */
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 0.3s ease;        /* animación de deslizamiento */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Mueve el thumb a la derecha cuando está ON */
+.mc-switch-sfx.on .toggle-thumb,
+.mc-switch-music.on .toggle-thumb {
+    left: calc(100% - 50px);
+}
+
+/* Ícono dentro del thumb */
+.toggle-thumb .material-icons {
+    font-size: 18px;
+    color: #c9952a;
+    background: linear-gradient(160deg, #fff6d0, #f5d97a);
+    width: 100%;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+
+}
+
+/* ── Ícono de fondo en el track ─────────────────────────────
+   OFF: ícono visible a la derecha del track
+   ON:  ícono visible a la izquierda del track
+────────────────────────────────────────────────────────── */
+.switch-icon-track {
+    position: absolute;
+    right: 10px;                        /* OFF → derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Cuando está ON el ícono del track se mueve a la izquierda */
+.mc-switch-sfx.on .switch-icon-track,
+.mc-switch-music.on .switch-icon-track {
+    right: auto;
+    left: 10px;
+}
+
+.switch-icon-track .material-icons {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Créditos (oculto por defecto, no se usa en el HTML actual) ── */
+.mc-credits-info {
+    display: none;
+    background-color: white;
+    border-radius: 15px;
+    padding: 10px 20px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+    width: 80%;
+    text-align: center;
+    color: #126d25;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.mc-credits-info.active {
+    display: block;
+}
+
+.additional-info{
+    width: 100%;
+    text-align: center;
+    color: grey;
+}
+
+/* ── Animación del patrón de fondo ─────────────────────── */
+@keyframes gradient {
+    from {
+        background-position:
+            -50px 0,
+            -50px 0,
+            0px 0,
+            0px 0;
+    }
+    to {
+        background-position:
+            50px 100px,
+            50px 100px,
+            100px 100px,
+            100px 100px;
+    }
+}

@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Grandstander:ital,wght@0,100..900;1,100..900&family=Pangolin&display=swap');
+
+/* =============================================
+   RESET
+   ============================================= */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Grandstander", cursive;
+}
+
+/* =============================================
+   CURSOR AR
+   ============================================= */
+#cursor-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+/* =============================================
+   SALIR
+   ============================================= */
+#close{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 16px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    width: 35px;
+
+    
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 5;
+    text-decoration: none;
+}
+#close span{
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+/*  */
+.message{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    /* width: 50%; */
+    position: fixed;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+    padding: 10px 20px;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    z-index: 10;
+    font-size: small;
+}
+#m-close{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 100%;
+    /* font-size: 16px; */
+    width: 35px;
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 5;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+#m-close span{
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#m-play {
+    background-color: white;
+    border-radius: 100%;
+    width: 70px;
+    aspect-ratio: 1/1;
+    /* position: absolute; */
+
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+.mp-img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* object-fit: contain; */
+    padding: 10px;
+    border-radius: 100%;
+    background: linear-gradient(135deg, #92d677 0%, #318b30 100%);
+    
+}
+
+#m-play img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+    /*  */
+    /* box-sizing: border-box; */
+    /* padding: 10px; */
+}
+/*  */
+/* =============================================
+   PANEL DE PAÍS
+   ============================================= */
+#country-ui {
+  position: fixed;
+
+  width: 90%;
+  padding: 10px;
+
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 15px;
+  z-index: 9998;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+#country-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 16px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    width: 35px;
+
+    
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 5;
+}
+#country-close span{
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.ui-header {
+  display: flex;
+  flex-direction: column;
+}
+.ui-title {
+    margin-top: -50px;
+
+    font-size: 32px;
+    font-weight: 900;
+    background-color: white;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+    padding: 7px;
+    border-radius: 40px;
+
+    width: 80%;
+}
+.ui-wrap-title{
+    display: flex;
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 40px;
+}
+.uic{
+    background-color: white;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 50px;
+    position: relative;
+}
+.uic > img {
+    width: 70px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -52%);
+    aspect-ratio: 1/1;
+    position: absolute;
+}
+.ui-country{
+    border-radius: 40px;
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#country-name {
+    background: repeating-linear-gradient( 
+        45deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.3) 5px, #ffffff 5px, 
+        #ffffff 25px);
+
+    margin-top: 15px;
+    font-size: 22px;
+    padding: 20px;
+    /* background-color: green; */
+    border: 2px dashed grey;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    opacity: .3;
+}
+.city-btns {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+
+    /* background-color: green; */
+    border: 2px dashed rgba(128, 128, 128, 0.3);
+    border-radius: 15px;
+    margin-top: 15px;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    background: repeating-linear-gradient( 
+        45deg, rgba(128, 128, 128, 0.1), rgba(128, 128, 128, 0.1) 5px, #ffffff 5px, 
+        #ffffff 25px);
+}
+.city-name{
+    /* flex: 1; */
+    background-color: rgb(243, 240, 235);
+    border-radius: 10px;
+    padding: 7px;
+
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.city-name img{
+    width: 60px;
+    background: linear-gradient(180deg, #eedcaa 0%, #f0b36d 100%);
+    
+    border-radius: 10px;
+    padding: 7px;
+}
+.city-name span{
+    padding-top: 7px;
+}
+
+#goal-badge{
+    position: fixed; 
+    top: 8px; 
+    right: 8px;
+    background: rgba(0,0,0,0.6); 
+    color: white;
+    padding: 7px 14px; 
+    border-radius: 20px;
+    font-size: 18px; 
+    font-weight: 500; 
+    z-index: 999;
+}

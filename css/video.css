@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Grandstander:ital,wght@0,100..900;1,100..900&family=Pangolin&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Grandstander", cursive;
+    background: linear-gradient(360deg, #8bd636, #9fd184);
+    position: relative;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, #ffffff2c 25%, transparent 25%) -50px 0,
+        linear-gradient(225deg, #ffffff2c 25%, transparent 25%) -50px 0,
+        linear-gradient(315deg, #ffffff2c 25%, transparent 25%),
+        linear-gradient(45deg,   #ffffff2c 25%, transparent 25%);
+    background-size: 100px 100px;
+    pointer-events: none;
+    animation: gradient 10s linear infinite;
+}
+
+/* =============================================
+   BOTÓN VOLVER
+   ============================================= */
+#close {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 16px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+    width: 35px;
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 20;
+    text-decoration: none;
+    display: flex;
+}
+#close span {
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* =============================================
+   CONTENEDOR DE VIDEO (4:5 = 720x900)
+   ============================================= */
+.video-play {
+    position: relative;       /* ancla a la sidebar */
+    aspect-ratio: 4 / 5;
+    height: 80dvh;            /* ajusta según pantalla */
+    max-height: 900px;
+    background-color: white;   /* reemplazar con video/canvas */
+    border-radius: 15px;
+    overflow: hidden;         /* recorta la sidebar si hace falta */
+    z-index: 1;
+    width: 90%;
+}
+
+/* =============================================
+   BARRA LATERAL SUPERPUESTA
+   ============================================= */
+.vc-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;              /* ancho colapsado */
+    height: 100%;             /* mismo alto que .video-play */
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 10px;
+
+    /* background: rgba(30, 80, 200, 0.45);   azul semitransparente */
+    /* backdrop-filter: blur(4px); */
+    border-radius: 15px 0 0 15px;          /* solo esquinas izquierdas */
+}
+
+/* Botón toggle (el que abre/cierra el menú) */
+.vcb-toggle {
+    background: white;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    padding: 6px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+/* Menú de filtros (oculto por defecto, JS lo muestra) */
+.vc-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    overflow: hidden;
+    max-height: 0;            /* colapsado; JS cambia a auto o px */
+    transition: max-height 0.3s ease;
+}
+.vc-menu.open {
+    max-height: 500px;        /* expandido */
+}
+
+/* Botones de filtro individuales */
+.vcb {
+    width: 44px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.vcb-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: linear-gradient(135deg, #92d677 0%, #318b30 100%);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.vcb-img img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+/* =============================================
+   MENSAJE SIN VIDEO
+   ============================================= */
+.video-warning {
+    background-color: white;
+    padding: 10px;
+    border-radius: 15px;
+}
+.vw-txt {
+    border-radius: 15px;
+    padding: 10px;
+    border: 2px dashed grey;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.3) 5px,
+        #ffffff 5px, #ffffff 25px
+    );
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    opacity: .3;
+}
+
+/* Estado activo de un filtro */
+.vcb--active .vcb-img {
+    background: linear-gradient(135deg, #ffda74 0%, #db7c0e 100%);
+    box-shadow: 0 0 0 3px white;
+}
+
+/* Botón reset con gradiente naranja distinto */
+.vcb--reset .vcb-img--reset {
+    background: linear-gradient(135deg, #ffda74 0%, #db7c0e 100%);
+}
+
+/* Etiqueta de filtro activo */
+.filters-name {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.45);
+    color: white;
+    border-radius: 15px;
+    padding: 4px 14px;
+    font-size: 16px;
+    font-weight: 900;
+    white-space: nowrap;
+    pointer-events: none;
+    display: none;
+}
+
+/* =============================================
+   ANIMACIÓN FONDO
+   ============================================= */
+@keyframes gradient {
+    from {
+        background-position: -50px 0, -50px 0, 0px 0, 0px 0;
+    }
+    to {
+        background-position: 50px 100px, 50px 100px, 100px 100px, 100px 100px;
+    }
+}

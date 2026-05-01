@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <link rel="icon" href="resources/UI/.png" type="image/png">
+
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <!-- ── Main container ── -->
+  <div class="menu-container">
+
+    <!-- Header con título -->
+    <div class="mc-up uno">
+      <h1>FIPAFI</h1>
+    </div>
+
+    <!-- Botones de experiencia -->
+    <div class="button-group">
+      <p class="subtitle uno">CHOOSE YOUR EXPERIENCE</p>
+
+      <div class="bg-group">
+
+        <!-- World Map -->
+        <a href="world.html" class="menu-btn btn-index" data-sfx>
+          <div class="bgg-play uno">
+            <div class="bggp"><img src="resources/UI/jugar.png" alt="Play"></div>
+          </div>
+          <div class="bgg-image">
+            <img src="resources/UI/globo-terraqueo.png" alt="World Map">
+          </div>
+          <div class="bgg-p"><p>WORLD MAP</p></div>
+        </a>
+
+        <!-- Stars -->
+        <a href="stars.html" class="menu-btn btn-stars" data-sfx>
+          <div class="bgg-play dos">
+            <div class="bggp"><img src="resources/UI/jugar.png" alt="Play"></div>
+          </div>
+          <div class="bgg-image-stars">
+            <img src="resources/UI/premio-de-futbol.png" alt="Stars">
+          </div>
+          <div class="bgg-p-stars"><p>STARS</p></div>
+        </a>
+
+      </div>
+
+      <!-- Drag & Shot -->
+      <a href="dns.html" class="menu-btn btn-dns" data-sfx>
+        <div class="bgg-play tres">
+          <div class="bggp tres"><img src="resources/UI/jugar.png" alt="Play"></div>
+        </div>
+        <div class="bgg-image-dns">
+          <img src="resources/UI/bola.png" alt="DNS">
+        </div>
+        <div class="bgg-p-dns">
+          <span>TAP &</span>
+          <span>SHOOT</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Botón para abrir el menú de opciones -->
+    <div class="mc-up dos" id="menuBtn" data-sfx>
+      <i class="fa-solid fa-bars"></i>
+    </div>
+
+  </div><!-- /menu-container -->
+
+  <!-- Overlay oscuro detrás del menú -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- ── Menú de opciones (desliza desde abajo) ── -->
+  <div class="menu-expand" id="menuExpand">
+
+    <!-- Botón cerrar -->
+    <div id="closeMenu" data-sfx><p>✖</p></div>
+
+    <!-- Título del menú -->
+    <div class="menu-t"><span>OPTIONS</span></div>
+
+    <div class="menu-content">
+      <div class="mc-sfx-music">
+        <!-- Switch SFX
+        .on  = activo (verde, thumb derecha)
+        sin .on = inactivo (rosa, thumb izquierda) -->
+        <div class="mc-switch-sfx on" id="sfxBtn">
+          <!-- Thumb deslizante con ícono -->
+          <div class="toggle-thumb" data-sfx>
+            <span class="material-icons" id="sfx-icon">music_note</span>
+          </div>
+          <!-- Ícono fijo en el track (lado contrario al thumb) -->
+          <div class="switch-icon-track" data-sfx>
+            <span class="material-icons">music_note</span>
+          </div>
+        </div>
+
+        <!-- Switch Music -->
+        <div class="mc-switch-music on" id="musicBtn">
+          <div class="toggle-thumb" data-sfx>
+            <span class="material-icons" id="music-icon">volume_up</span>
+          </div>
+          <div class="switch-icon-track" data-sfx>
+            <span class="material-icons">volume_up</span>
+          </div>
+        </div>
+      </div>
+      <!-- Credits -->
+      <div class="additional-info">
+        <span>Danna Rodríguez</span>
+      </div>
+    </div>
+
+  </div><!-- /menu-expand -->
+
+  <script src="js/menu.js"></script>
+  <script src="js/audio.js"></script>
+</body>
+</html>
