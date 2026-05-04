@@ -300,3 +300,284 @@ body {
     font-weight: 500; 
     z-index: 999;
 }
+
+/* MAS INFO */
+.worldinfo{
+    position: fixed;
+    background-color: white;
+    width: 50px;
+    padding: 7px;
+    border-radius: 100%;
+    top: 10%;
+    right: 8px;
+    transform: translateY(-10%);
+    z-index: 10;
+
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+.wi-img{
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 100%;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+.wi-img img{
+    display: block;
+    width: 100%;
+    object-fit: contain;
+}
+
+/* cartas */
+.card-stack {
+    position: relative;
+    width: 190px;
+    height: 280px;
+    /* background-color: pink; */
+
+    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    z-index: 10;
+  }
+  
+  .card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    /* border: 1px solid #ccc; */
+    border-radius: 10px;
+    padding: 0 10px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* font-weight: bold; */
+    z-index: 10;
+
+  }
+  .card span{
+    font-size: 10px;
+  }
+
+  /* bloqueado */
+  .card-overlay{
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(2px);
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .block-w{
+    width: 60%;
+    padding: 20px 10px;
+    border-radius: 25px;
+    background-color: #3696d6;
+    position: relative;
+  }
+  .block-bg{
+        background-color: white;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 60px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+  }
+  .bbg{
+    width: 100%;
+    padding: 7px;
+    border-radius: 100%;
+    background: linear-gradient(180deg, #3696d6, #5c6fdb);
+  }
+  .bbg img{
+    display: block;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    
+  }
+  
+  .card:nth-child(1) { rotate: -15deg; left: 0; z-index: 13; background-color: #f7bd00;}
+  .card:nth-child(2) {   z-index: 12; background-color: #e01c1c; color: white;}
+  .card:nth-child(3) {  rotate: 15deg; z-index: 11; background-color: #f7bd00;}
+
+/* animacion */
+  .card:nth-child(1):hover {
+    transform: translateY(-10px);
+    transition: transform 0.3s ease;
+  }
+  .card:nth-child(2):hover {
+    transform: translateY(-10px);
+    transition: transform 0.3s ease;
+    z-index: 14;
+
+  }
+  .card:nth-child(3):hover {
+    transform: translateY(-10px);
+    transition: transform 0.3s ease;
+    z-index: 14;
+
+  } 
+.wrapper-msg{   
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    z-index: 10;
+}
+
+.dns-message{
+    
+    background-color: white;
+    
+    border-radius: 15px;
+    padding: 10px;
+
+    position: relative;
+
+    
+}
+
+#hide{
+    position: absolute;
+    /* top: 8px;
+    left: 8px; */
+    right: 0;
+    top: 0;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 16px;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+
+    width: 35px;
+
+    
+    aspect-ratio: 1/1;
+    padding: 5px;
+    z-index: 5;
+    text-decoration: none;
+}
+#hide span{
+    background: linear-gradient(#ec7a7a, #e01c1c);
+    flex: 1;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.dnsm-uno{
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    color: white;
+    font-size: 28px;
+    font-weight: 900;
+    /* padding: 20px 10px; */
+    padding-top: 30px;
+    padding-bottom: 10px;
+    text-align: center;
+    /* margin-top: 10px; */
+
+    border-radius: 15px 15px 0px 0;
+}
+.dnsm-dos{
+    background: repeating-linear-gradient( 
+        45deg, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.3) 5px, #ffffff 5px, 
+        #ffffff 25px);
+    text-align: center;
+    padding: 20px 10px;
+
+    border-radius: 0 0 15px 15px;
+    border: 2px dashed grey;
+    opacity: .3;
+}
+.dnsm-i{
+    background: #3696d6;
+    width: 50%;
+    padding: 20px 10px;
+    border-radius: 25px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.i-img{
+    background-color: white;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+
+    width: 60px;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 100%;
+
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+.ii-img{
+    width: 100%;
+    padding: 7px;
+    border-radius: 100%;
+    background: linear-gradient(180deg, #3696d6, #5c6fdb);
+    /* ; */
+}
+.ii-img img{
+    display: block;
+    /* background-color: red; */
+    object-fit: contain;
+    aspect-ratio: 1/1;
+    width: 100%;
+    /* border-radius: 100%; */
+}
+
+/* ir al world map */
+.dns-go{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 10;
+
+    /* background-color: purple; */
+}
+.dnsg-btn {
+    background-color: white;
+    border-radius: 25px;
+    padding: 7px; /* este será el "borde" blanco visible */
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+
+.dnsg-btn span {
+    background: linear-gradient(180deg, #3696d6, #5c6fdb);
+    border-radius: 20px;
+    padding: 10px 20px;
+    display: block;
+    color: white;
+}

@@ -129,129 +129,223 @@ const players =
 [
   {
     nombre: 'Santiago Gimenez',
-    descripcion: 'Mexico star striker, known for his goal-scoring ability in European football.',
+    descripcion: 'Mexico national team striker and Feyenoord star, recognized for his positioning, finishing, and consistent goal scoring in European competitions.',
     textura: './models/textures/mexico.png',
-    lvl: 38,
+    lvl: 41,
     lvlMax: 100,
-    fuerza: 870,
-    total: 900,
+    fuerza: 885,
+    total: 910,
     pais: './resources/UI/paises/mexico.png'
   },
   {
     nombre: 'Percy Tau',
-    descripcion: 'South Africa offensive leader, fast and skillful in attack.',
+    descripcion: 'South Africa forward and Al Ahly player, known for his agility, creativity, and impact in African international competitions.',
     textura: './models/textures/sudafrica.png',
-    lvl: 32,
+    lvl: 34,
     lvlMax: 100,
-    fuerza: 820,
-    total: 845,
+    fuerza: 830,
+    total: 855,
     pais: './resources/UI/paises/sudafrica.png'
   },
   {
     nombre: 'Son Heung-min',
-    descripcion: 'Global star of South Korea, known for his speed and finishing ability.',
+    descripcion: 'South Korea captain and Tottenham star, elite forward with world-class finishing, speed, and leadership at the highest level.',
     textura: './models/textures/coreadelsur.png',
-    lvl: 45,
+    lvl: 47,
     lvlMax: 100,
-    fuerza: 940,
-    total: 960,
+    fuerza: 945,
+    total: 970,
     pais: './resources/UI/paises/coreadelsur.png'
   },
   {
     nombre: 'Patrik Schick',
-    descripcion: 'Czech Republic striker, powerful and deadly inside the box.',
+    descripcion: 'Czech Republic striker playing in Bundesliga, known for his aerial ability, powerful shots, and clinical finishing.',
     textura: './models/textures/republicacheca.png',
-    lvl: 36,
+    lvl: 38,
     lvlMax: 100,
-    fuerza: 880,
-    total: 890,
+    fuerza: 890,
+    total: 900,
     pais: './resources/UI/paises/republicacheca.png'
   },
 
   {
     nombre: 'Alphonso Davies',
-    descripcion: 'Canada top player, known for his explosive speed and wing play.',
+    descripcion: 'Canada captain and Bayern Munich full-back, famous for his explosive pace, dribbling, and attacking contribution from defense.',
     textura: './models/textures/canada.png',
-    lvl: 44,
+    lvl: 46,
     lvlMax: 100,
-    fuerza: 930,
-    total: 955,
+    fuerza: 935,
+    total: 960,
     pais: './resources/UI/paises/canada.png'
   },
   {
     nombre: 'Edin Dzeko',
-    descripcion: 'Bosnia veteran striker, key offensive reference for the team.',
+    descripcion: 'Bosnia veteran striker with vast European experience, known for his positioning, strength, and leadership in attack.',
     textura: './models/textures/bozniayherzegovina.png',
-    lvl: 34,
+    lvl: 36,
     lvlMax: 100,
-    fuerza: 860,
-    total: 870,
+    fuerza: 865,
+    total: 875,
     pais: './resources/UI/paises/bozniayherzegovina.png'
   },
   {
     nombre: 'Akram Afif',
-    descripcion: 'Qatar main playmaker, creative and dangerous in attack.',
+    descripcion: 'Qatar star forward and Asian Cup standout, highly creative with excellent dribbling and playmaking ability.',
     textura: './models/textures/catar.png',
-    lvl: 35,
+    lvl: 39,
     lvlMax: 100,
-    fuerza: 870,
-    total: 880,
+    fuerza: 880,
+    total: 900,
     pais: './resources/UI/paises/catar.png'
   },
   {
     nombre: 'Granit Xhaka',
-    descripcion: 'Switzerland midfield leader, strong with excellent vision.',
+    descripcion: 'Switzerland captain and Bundesliga midfielder, known for his leadership, passing accuracy, and tactical intelligence.',
     textura: './models/textures/suiza.png',
-    lvl: 40,
+    lvl: 43,
     lvlMax: 100,
-    fuerza: 900,
-    total: 910,
+    fuerza: 910,
+    total: 925,
     pais: './resources/UI/paises/suiza.png'
   },
 
   {
     nombre: 'Vinicius Jr',
-    descripcion: 'Brazil superstar winger, highly skilled and one of the best in the world.',
+    descripcion: 'Brazil superstar and Real Madrid winger, one of the best players in the world with elite dribbling, speed, and decisive impact in big matches.',
     textura: './models/textures/brasil.png',
-    lvl: 47,
+    lvl: 49,
     lvlMax: 100,
-    fuerza: 960,
-    total: 980,
+    fuerza: 965,
+    total: 985,
     pais: './resources/UI/paises/brazil.png'
   },
   {
     nombre: 'Achraf Hakimi',
-    descripcion: 'Morocco attacking full-back, fast and decisive on both ends of the pitch.',
+    descripcion: 'Morocco international and PSG full-back, known for his speed, attacking runs, and defensive reliability.',
     textura: './models/textures/marruecos.png',
-    lvl: 43,
+    lvl: 45,
     lvlMax: 100,
-    fuerza: 920,
-    total: 940,
+    fuerza: 925,
+    total: 945,
     pais: './resources/UI/paises/marruecos.png'
   },
   {
     nombre: 'Duckens Nazon',
-    descripcion: 'Haiti main striker, leading offensive figure of the team.',
+    descripcion: 'Haiti striker and key national team figure, contributing with goals and physical presence in CONCACAF competitions.',
     textura: './models/textures/haiti.png',
-    lvl: 30,
+    lvl: 32,
     lvlMax: 100,
-    fuerza: 800,
-    total: 820,
+    fuerza: 810,
+    total: 830,
     pais: './resources/UI/paises/haiti.png'
   },
   {
     nombre: 'Andrew Robertson',
-    descripcion: 'Scotland captain, known for his endurance and leadership.',
+    descripcion: 'Scotland captain and Liverpool full-back, known for his stamina, crossing ability, and leadership on the pitch.',
     textura: './models/textures/escocia.png',
-    lvl: 41,
+    lvl: 44,
     lvlMax: 100,
-    fuerza: 910,
-    total: 925,
+    fuerza: 915,
+    total: 935,
     pais: './resources/UI/paises/escocia.png'
   }
 ];
 
 let playerActual = 0;
+
+// ============================================================
+//  EXTRA CARDS DATA
+// ============================================================
+const playerExtraCards = [
+  {
+    nombre: 'Santiago Gimenez',
+    performance: 'High-impact striker in European leagues, consistently scoring goals with excellent positioning and composure. Performs best inside the box and in quick attacking plays.',
+    strengthProfile: 'Strong finisher with great off-ball movement. Excels in positioning, anticipation, and first-touch shots. Reliable under pressure situations.'
+  },
+  {
+    nombre: 'Percy Tau',
+    performance: 'Key offensive player in African competitions, contributing with assists and dynamic attacking plays. Known for stepping up in important matches.',
+    strengthProfile: 'Agile dribbler with quick acceleration and creativity. Effective in one-on-one situations and generating space in tight defenses.'
+  },
+  {
+    nombre: 'Son Heung-min',
+    performance: 'Top-level forward in the Premier League, consistently delivering goals and assists. Proven performer in high-pressure matches and international tournaments.',
+    strengthProfile: 'Elite speed and finishing with both feet. Dangerous in counterattacks, long-range shots, and off-the-ball runs behind defenses.'
+  },
+  {
+    nombre: 'Patrik Schick',
+    performance: 'Reliable goal scorer in Bundesliga and international tournaments. Strong presence in the box and effective in aerial duels.',
+    strengthProfile: 'Powerful striker with excellent heading and shooting strength. Threat from distance and highly effective in physical play.'
+  },
+  {
+    nombre: 'Alphonso Davies',
+    performance: 'Top-performing full-back in elite European football, contributing both defensively and offensively with assists and constant runs.',
+    strengthProfile: 'Exceptional speed and stamina. Dominates the wing with dribbling, overlaps, and recovery runs in defense.'
+  },
+  {
+    nombre: 'Edin Dzeko',
+    performance: 'Experienced forward still contributing with goals and leadership. Plays a key role in team structure and attacking transitions.',
+    strengthProfile: 'Strong target man with excellent positioning and aerial ability. Holds up play and finishes effectively inside the box.'
+  },
+  {
+    nombre: 'Akram Afif',
+    performance: 'Standout player in Asian competitions, leading his team with goals and assists. Highly influential in offensive build-up.',
+    strengthProfile: 'Creative playmaker with strong dribbling and vision. Excels in chance creation and breaking defensive lines.'
+  },
+  {
+    nombre: 'Granit Xhaka',
+    performance: 'Consistent midfield leader in European football, controlling tempo and contributing both defensively and offensively.',
+    strengthProfile: 'Strong passer with tactical intelligence and physical presence. Excellent long shots and defensive positioning.'
+  },
+  {
+    nombre: 'Vinicius Jr',
+    performance: 'One of the most decisive players in world football, delivering goals and assists in top competitions including knockout stages.',
+    strengthProfile: 'Explosive winger with elite dribbling and acceleration. Unpredictable, strong in one-on-one situations and clutch moments.'
+  },
+  {
+    nombre: 'Achraf Hakimi',
+    performance: 'Consistent high-level performer in European competitions, contributing with assists and defensive stability.',
+    strengthProfile: 'Extremely fast full-back with great stamina. Constant attacking runs and solid defensive recovery.'
+  },
+  {
+    nombre: 'Duckens Nazon',
+    performance: 'Key offensive player for his national team, contributing goals in regional competitions and qualifiers.',
+    strengthProfile: 'Physical striker with strength and finishing ability. Effective in hold-up play and aerial duels.'
+  },
+  {
+    nombre: 'Andrew Robertson',
+    performance: 'Consistent top-level performer in the Premier League, contributing assists and maintaining defensive solidity.',
+    strengthProfile: 'High endurance full-back with precise crossing. Strong leadership and constant presence on the wing.'
+  }
+];
+
+// ============================================================
+//  CARTAS POR JUGADOR
+// ============================================================
+function actualizarCartas(index) {
+  const p       = players[index];
+  const extra   = playerExtraCards.find(e => e.nombre === p.nombre);
+  const cards   = document.querySelectorAll('.card-stack .card');
+  const stack   = document.querySelector('.card-stack');
+
+  if (!extra) {
+    stack.style.display = 'none';
+    return;
+  }
+
+  // Ocultar todos los overlays — no se usan aquí
+  cards.forEach(card => {
+    const overlay = card.querySelector('.card-overlay');
+    if (overlay) overlay.style.display = 'none';
+  });
+
+  // Carta 1 → performance
+  cards[0].querySelector('span').textContent = extra.performance;
+  // Carta 2 → strengthProfile
+  cards[1].querySelector('span').textContent = extra.strengthProfile;
+
+  // stack.style.display = 'block';
+}
 
 // ============================================================
 //  RENDER INFO
@@ -279,6 +373,8 @@ function aplicarPlayer(index) {
   } else {
     cambiarTextura(p.textura);
   }
+  actualizarCartas(index);          // actualiza contenido
+  document.querySelector('.card-stack').style.display = 'none'; // cierra al cambiar jugador
 }
 
 // ============================================================
@@ -375,7 +471,6 @@ function bloquearNavegacion() {
   document.getElementById('next-btn').style.pointerEvents = 'none';
   document.getElementById('next-btn').style.opacity       = '0.3';
 }
-
 function desbloquearNavegacion() {
   document.getElementById('prev-btn').style.pointerEvents = 'auto';
   document.getElementById('prev-btn').style.opacity       = '1';
@@ -383,24 +478,36 @@ function desbloquearNavegacion() {
   document.getElementById('next-btn').style.opacity       = '1';
 }
 
+let targetDetectado = false;
 document.addEventListener('DOMContentLoaded', () => {
+
+  document.querySelector('.country-w').addEventListener('click', () => {
+    if (!targetDetectado) return;
+    
+    const stack   = document.querySelector('.card-stack');
+    const visible = stack.style.display === 'block';
+    stack.style.display = visible ? 'none' : 'block';
+    actualizarCartas(playerActual);
+  });
+
   actualizarBotones();
   bloquearNavegacion();
 
   document.getElementById('prev-btn').addEventListener('click', function () {
     playerActual = (playerActual - 1 + players.length) % players.length;
     aplicarPlayer(playerActual);
-    explotar(this);
+    // explotar(this);
   });
 
   document.getElementById('next-btn').addEventListener('click', function () {
     playerActual = (playerActual + 1) % players.length;
     aplicarPlayer(playerActual);
-    explotar(this);
+    // explotar(this);
   });
 
   const target = document.querySelector('[mindar-image-target]');
   target.addEventListener('targetFound', () => {
+    targetDetectado = true;
     document.getElementById('player-name').classList.add('activo');
     desbloquearNavegacion();
     // mostrarStats();
@@ -408,6 +515,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   target.addEventListener('targetLost', () => {
+    targetDetectado = false;
+
     document.getElementById('player-name').classList.remove('activo');
     bloquearNavegacion();
     // ocultarStats();
@@ -423,6 +532,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('player-total').textContent       = '?';
     document.getElementById('player-lvl-bar').style.width     = '0%';
     document.getElementById('country').src = '';
+
+    document.querySelector('.card-stack').style.display = 'none';
   });
 
   document.getElementById('player-padre').addEventListener('model-loaded', listarAnimaciones);

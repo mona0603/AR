@@ -4,8 +4,8 @@ const videoMap = {
   'MEXICO|GDL':       'videos/gdl.mp4',
   'MEXICO|CDMX':      'videos/cdmx.mp4',
   'MEXICO|MTY':       'videos/mty.mp4',
-  'CANADA|Vancouver': 'videos/vancouver.mp4',
-  'CANADA|Toronto':   'videos/toronto.mp4',
+  'CANADA|VA': 'videos/vancouver.mp4',
+  'CANADA|TO':   'videos/toronto.mp4',
   'USA|NY':            'videos/ny.mp4',
   'USA|LA':           'videos/la.mp4',
   'USA|KSC':          'videos/ksc.mp4'

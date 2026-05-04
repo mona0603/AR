@@ -3,7 +3,7 @@
 // ============================================================
 //  CONSTANTES
 // ============================================================
-const GOAL_THRESHOLDS = { USA: 10, CANADA: 25 };
+const GOAL_THRESHOLDS = { USA: 100, CANADA: 200 };
 
 // ============================================================
 //  GEO-POSITION
@@ -103,7 +103,7 @@ const countryOptions = {
     { nombre: 'KSC', img: 'resources/UI/tostar.png' }
   ]
 };
-// COLORES
+
 const countryColors = {
   MEXICO: 'linear-gradient(180deg, #8bd636, #7cc057)',
   USA:    'linear-gradient(180deg, #3646d6, #5784c0)',
@@ -119,19 +119,29 @@ function estaBloqueado(pais) {
   return !localStorage.getItem(`unlocked_${pais}`);
 }
 
-function ocultarMessage() {
-  document.querySelector('.message').style.display = 'none';
+function cerrarTodo() {
+  const wrapperMsg = document.querySelector('.wrapper-msg');
+  if (wrapperMsg) wrapperMsg.style.display = 'none';
+
+  const cardStack = document.querySelector('.card-stack');
+  if (cardStack) cardStack.style.display = 'none';
+  document.querySelector('.worldinfo')?.classList.remove('active');
+
+  document.querySelector('.ui-country').textContent = '';
+  document.getElementById('country-name').style.display = 'flex';
+  document.getElementById('city-btns').style.display = 'none';
+  document.getElementById('city-btns').innerHTML = '';
+  document.querySelector('.ui-wrap-title').style.background = countryColors.MEXICO;
+}
+
+function resetUI() {
+  cerrarTodo();
 }
 
 function mostrarMenuPais(pais) {
-  console.log('mostrarMenuPais:', pais);
-  console.log('bloqueado:', estaBloqueado(pais));
-
+  cerrarTodo();
   if (estaBloqueado(pais)) {
-    const faltan = GOAL_THRESHOLDS[pais] - parseInt(localStorage.getItem('totalGoals') || '0');
-    document.getElementById('m-text').innerHTML =
-    `Score ${faltan} more goal${faltan !== 1 ? 's' : ''} to unlock ${pais}`;
-    document.querySelector('.message').style.display = 'flex';
+    mostrarMensajeBloqueado(pais);
     return;
   }
 
@@ -141,7 +151,6 @@ function mostrarMenuPais(pais) {
   cityBtns.style.display = 'flex';
   cityBtns.innerHTML = '';
 
-  // Aplicar color según país
   const gradient = countryColors[pais] || '';
   document.querySelector('.ui-wrap-title').style.background = gradient;
 
@@ -149,7 +158,7 @@ function mostrarMenuPais(pais) {
   ciudades.forEach(ciudad => {
     const div = document.createElement('div');
     div.className = 'city-name';
-    div.setAttribute('data-sfx', ''); 
+    div.setAttribute('data-sfx', '');
     div.innerHTML = `
       <img src="${ciudad.img}" alt="${ciudad.nombre}" style="background: ${gradient};">
       <span>${ciudad.nombre}</span>
@@ -159,28 +168,66 @@ function mostrarMenuPais(pais) {
   });
 }
 
-function resetUI() {
-  document.querySelector('.ui-country').textContent = '';
-  document.getElementById('country-name').style.display = 'flex';
-  document.getElementById('city-btns').style.display = 'none';
-  document.getElementById('city-btns').innerHTML = '';
-  document.querySelector('.ui-wrap-title').style.background = MEXICO;
-  ocultarMessage();
-}
-
 // ============================================================
 //  DOM READY
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
 
-  document.getElementById('m-close').onclick = ocultarMessage;
+  // --- Referencias mensaje ---
+  const wrapperMsg = document.querySelector('.wrapper-msg');
+  const msgTitle   = document.getElementById('msg-title');
+  const msgText    = document.getElementById('msg-text');
+
+  window.mostrarMensajeBloqueado = function(pais) {
+    cerrarTodo();
+    const goles  = parseInt(localStorage.getItem('totalGoals') || '0');
+    const faltan = GOAL_THRESHOLDS[pais] - goles;
+    msgTitle.textContent = pais;
+    msgText.textContent  = `Score ${faltan} more goal${faltan !== 1 ? 's' : ''} to unlock ${pais}`;
+    wrapperMsg.style.display = 'block';
+  };
+
+  window.ocultarMessage = function() {
+    wrapperMsg.style.display = 'none';
+  };
+
+  document.getElementById('hide').onclick    = ocultarMessage;
+  document.getElementById('msg-btn').onclick = () => { window.location.href = 'dns.html'; };
   document.getElementById('country-close').onclick = resetUI;
 
-  const el = document.getElementById('goal-count');
-  if (el) el.textContent = localStorage.getItem('totalGoals') || '0';
+  const goalEl = document.getElementById('goal-count');
+  if (goalEl) goalEl.textContent = localStorage.getItem('totalGoals') || '0';
 
   const target = document.querySelector('[mindar-image-target]');
   target.addEventListener('targetLost', resetUI);
+
+  // --- Worldinfo / cartas ---
+  const worldinfoBtn = document.querySelector('.worldinfo');
+  const cardStack    = document.querySelector('.card-stack');
+  const cards        = document.querySelectorAll('.card');
+  const cardCountry  = ['MEXICO', 'USA', 'CANADA'];
+
+  function actualizarOverlays() {
+    cards.forEach((card, i) => {
+      const overlay = card.querySelector('.card-overlay');
+      if (!overlay) return;
+      overlay.style.display = estaBloqueado(cardCountry[i]) ? 'flex' : 'none';
+    });
+  }
+
+  worldinfoBtn.addEventListener('click', () => {
+    const visible = cardStack.style.display === 'block';
+    if (!visible) cerrarTodo();
+    worldinfoBtn.classList.toggle('active', !visible);
+    if (visible) {
+      cardStack.style.display = 'none';
+    } else {
+      actualizarOverlays();
+      cardStack.style.display = 'block';
+    }
+  });
+
+  cardStack.style.display = 'none';
 });
 
 // ============================================================
@@ -208,7 +255,6 @@ document.addEventListener('touchend', e => {
     while (obj && !obj.el) obj = obj.parent;
     if (obj && obj.el) {
       const nombre = obj.el.getAttribute('pais')?.nombre;
-      console.log('País tocado:', nombre);
       if (nombre) mostrarMenuPais(nombre);
     }
   }

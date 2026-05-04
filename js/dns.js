@@ -1,23 +1,34 @@
 'use strict';
 
-const SHOOT_SPEED    = 1.5;
-const SHOOT_UP       = 0.4;
-const GRAVITY        = 0.02;
-const DAMPING        = 0.995;
-const RESET_DISTANCE = 100;
-const OFFSET         = { x: 0, y: -2, z: -10 };
-const GOAL_THRESHOLDS = { USA: 10, CANADA: 25 };
+const SHOOT_SPEED     = 1.5;
+const SHOOT_UP        = 0.4;
+const GRAVITY         = 0.02;
+const DAMPING         = 0.995;
+const RESET_DISTANCE  = 100;
+const OFFSET          = { x: 0, y: -2, z: -10 };
+const GOAL_THRESHOLDS = { USA: 100, CANADA: 200 };
 
-// ── Net config ──────────────────────────────────────────
-const NET_OFFSET     = { x: 0, y: 1, z: -20 };
-const NET_SWING      = 5;
-const NET_SPEED      = 0.05;
+const NET_OFFSET = { x: 0, y: 1, z: -20 };
+const NET_SWING  = 5;
+const NET_SPEED  = 0.05;
 
-const velocity = new THREE.Vector3();
-let launched   = false;
-let homePos    = new THREE.Vector3();
+const BALL_POOL_SIZE = 10;
+const SHOOT_DELAY    = 0; //no delay (ms)
 
-// ── Componente: portería fija + animación lateral ───────
+let ballPool     = [];
+let lastShotTime = 0;
+let homePos      = new THREE.Vector3();
+
+const ROUND_DURATION    = 30;
+let roundActive         = false;
+let roundGoals          = 0;
+let timeLeft            = ROUND_DURATION;
+let timerInterval       = null;
+let totalAntesDeLaRonda = 0;
+
+// ============================================================
+//  NET CONTROLLER
+// ============================================================
 AFRAME.registerComponent('net-controller', {
   init() {
     this.net     = null;
@@ -65,110 +76,212 @@ AFRAME.registerComponent('net-controller', {
   }
 });
 
-// ── Componente: disparo de pelota ───────────────────────
+// ============================================================
+//  TAP SHOOT
+// ============================================================
 AFRAME.registerComponent('tap-shoot', {
   init() {
-    this.ball   = null;
     this.target = document.querySelector('[mindar-image-target]');
 
     this.target.addEventListener('targetFound', () => {
-      if (this.ball) {
-        this.ball.object3D.visible = true;
-        return;
+      if (ballPool.length === 0) {
+        const scene      = this.el.sceneEl;
+        const sourceBall = document.querySelector('#ball');
+        const worldPos   = new THREE.Vector3();
+
+        sourceBall.object3D.getWorldPosition(worldPos);
+        worldPos.x += OFFSET.x;
+        worldPos.y += OFFSET.y;
+        worldPos.z += OFFSET.z;
+        homePos.copy(worldPos);
+
+        for (let i = 0; i < BALL_POOL_SIZE; i++) {
+          const clone = sourceBall.cloneNode(true);
+          clone.id = `ball-${i}`;
+          scene.appendChild(clone);
+
+          clone.addEventListener('loaded', () => {
+            clone.object3D.position.copy(homePos);
+            clone.object3D.visible = true;
+          });
+
+          ballPool.push({
+            el:       clone,
+            velocity: new THREE.Vector3(),
+            active:   false,
+            scored:   false
+          });
+        }
+
+        sourceBall.object3D.visible = false;
+      } else {
+        ballPool.forEach(b => {
+          b.el.object3D.visible = true;
+          b.active = false;
+          b.el.object3D.position.copy(homePos);
+        });
       }
-
-      const ballEl   = document.querySelector('#ball');
-      const scene    = this.el.sceneEl;
-      const worldPos = new THREE.Vector3();
-
-      ballEl.object3D.getWorldPosition(worldPos);
-      scene.object3D.add(ballEl.object3D);
-
-      worldPos.x += OFFSET.x;
-      worldPos.y += OFFSET.y;
-      worldPos.z += OFFSET.z;
-
-      ballEl.object3D.position.copy(worldPos);
-      homePos.copy(worldPos);
-
-      this.ball = ballEl;
     });
 
     this.target.addEventListener('targetLost', () => {
-      if (this.ball) this.ball.object3D.visible = false;
-      launched = false;
+      ballPool.forEach(b => {
+        b.el.object3D.visible = false;
+        b.active = false;
+      });
     });
 
-    // ── Touch: ignorar si toca un elemento UI ──
     document.addEventListener('touchend', e => {
       if (e.target.closest('#close, button, a, [data-ui]')) return;
       e.preventDefault();
-      this.shoot();
+      this.handleTap();
     }, { passive: false });
 
-    // ── Click: ignorar si toca un elemento UI ──
     document.addEventListener('click', e => {
       if (e.target.closest('#close, button, a, [data-ui]')) return;
-      this.shoot();
+      this.handleTap();
     });
   },
 
-  shoot() {
-    if (!this.ball) return;
-    velocity.set(0, SHOOT_UP, -SHOOT_SPEED);
-    launched = true;
+  handleTap() {
+    if (ballPool.length === 0) return;
+    if (!roundActive) iniciarRonda();
+
+    const now = Date.now();
+    if (now - lastShotTime < SHOOT_DELAY) return;
+    lastShotTime = now;
+
+    const ball = ballPool.find(b => !b.active);
+    if (!ball) return;
+
+    ball.el.object3D.position.copy(homePos);
+    ball.velocity.set(0, SHOOT_UP, -SHOOT_SPEED);
+    ball.active = true;
+    ball.scored = false;
   },
 
   tick() {
-    if (!launched || !this.ball) return;
+    const net    = document.querySelector('#net-goal');
+    const netPos = new THREE.Vector3();
+    if (net) net.object3D.getWorldPosition(netPos);
 
-    const pos = this.ball.object3D.position;
-    pos.add(velocity);
-    velocity.y -= GRAVITY;
-    velocity.multiplyScalar(DAMPING);
+    ballPool.forEach(ball => {
+      if (!ball.active) return;
 
-    // ── Detección de gol ──────────────────────────────────
-    const net = document.querySelector('#net-goal');
-    if (net) {
-      const netPos = new THREE.Vector3();
-      net.object3D.getWorldPosition(netPos);
+      const pos = ball.el.object3D.position;
+      pos.add(ball.velocity);
+      ball.velocity.y -= GRAVITY;
+      ball.velocity.multiplyScalar(DAMPING);
 
-      const dist = pos.distanceTo(netPos);
-      if (dist < 3 && !this._scored) {          // umbral de proximidad
-        this._scored = true;
-        registrarGol();                          // ← nueva función
+      if (net) {
+        const dist = pos.distanceTo(netPos);
+        if (dist < 3 && !ball.scored) {
+          ball.scored = true;
+          registrarGol();
+        }
+        if (dist > 6) ball.scored = false;
       }
-      if (dist > 6) this._scored = false;        // reset para el siguiente tiro
-    }
 
-    if (pos.length() > RESET_DISTANCE) {
-      pos.copy(homePos);
-      velocity.set(0, 0, 0);
-      launched = false;
-      this._scored = false;
-    }
-  },
+      if (pos.length() > RESET_DISTANCE) {
+        pos.copy(homePos);
+        ball.velocity.set(0, 0, 0);
+        ball.active = false;
+        ball.scored = false;
+      }
+    });
+  }
 });
 
-// ── Init ────────────────────────────────────────────────
-document.querySelector('a-scene').addEventListener('loaded', () => {
-  const scene = document.querySelector('a-scene');
-  scene.setAttribute('tap-shoot', '');
-  scene.setAttribute('net-controller', '');
-});
+// ============================================================
+//  RONDA
+// ============================================================
+function iniciarRonda() {
+  totalAntesDeLaRonda = parseInt(localStorage.getItem('totalGoals') || '0');
+  roundActive         = true;
+  roundGoals          = 0;
+  timeLeft            = ROUND_DURATION;
 
-// Inicializar score al cargar
-document.addEventListener('DOMContentLoaded', () => {
-  const totalGuardado = parseInt(localStorage.getItem('totalGoals') || '0');
-  const scoreSpan = document.querySelector('.score span:last-child');
-  if (scoreSpan) scoreSpan.textContent = totalGuardado;
-});
+  actualizarTimerUI();
 
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    actualizarTimerUI();
+    if (timeLeft <= 0) terminarRonda();
+  }, 1000);
+}
+
+function actualizarTimerUI() {
+  const timerEl = document.querySelector('.timer span:last-child');
+  if (timerEl) timerEl.textContent = timeLeft;
+}
+
+function terminarRonda() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  roundActive   = false;
+
+  const total    = parseInt(localStorage.getItem('totalGoals') || '0');
+  const umbrales = Object.values(GOAL_THRESHOLDS).sort((a, b) => a - b);
+
+  // Checkpoint: umbral más alto ya desbloqueado antes de esta ronda
+  const checkpoint     = umbrales.filter(u => totalAntesDeLaRonda >= u).pop() || 0;
+  const siguienteUmbral = umbrales.find(u => u > checkpoint) || Infinity;
+
+  // Si no se alcanzó el siguiente umbral, resetear al checkpoint
+  if (total < siguienteUmbral) {
+    localStorage.setItem('totalGoals', checkpoint);
+    const scoreSpan = document.querySelector('.score span:last-child');
+    if (scoreSpan) scoreSpan.textContent = checkpoint;
+  }
+
+  mostrarResultado(roundGoals);
+}
+
+function mostrarResultado(goles) {
+  const wrapper = document.querySelector('.wrapper-msg');
+  const titulo  = wrapper.querySelector('.dnsm-uno span');
+  const texto   = wrapper.querySelector('.dnsm-dos span:last-child');
+
+  titulo.textContent = `${goles} GOAL${goles !== 1 ? 'S' : ''}`;
+  texto.textContent  = goles === 0
+    ? 'No goals this round. Try again!'
+    : `You scored ${goles} goal${goles !== 1 ? 's' : ''} this round!`;
+
+  wrapper.style.display       = 'block';
+  wrapper.style.pointerEvents = 'all';
+
+  const btnGo = wrapper.querySelector('.dnsg-btn');
+  btnGo.querySelector('span').textContent = 'PLAY AGAIN';
+  btnGo.onclick = () => {
+    wrapper.style.display       = 'none';
+    wrapper.style.pointerEvents = 'none';
+  };
+
+  const hideBtn = wrapper.querySelector('#hide');
+  hideBtn.onclick = () => {
+    wrapper.style.display       = 'none';
+    wrapper.style.pointerEvents = 'none';
+  };
+
+  wrapper.addEventListener('touchend', e => {
+    if (e.target.closest('.dnsg-btn, #hide, #hide span')) return;
+    e.stopPropagation();
+  }, { capture: true });
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.closest('.dnsg-btn, #hide, #hide span')) return;
+    e.stopPropagation();
+  }, { capture: true });
+}
+
+// ============================================================
+//  GOLES
+// ============================================================
 function registrarGol() {
   const total = (parseInt(localStorage.getItem('totalGoals') || '0')) + 1;
   localStorage.setItem('totalGoals', total);
 
-  // Actualizar score en pantalla
+  if (roundActive) roundGoals++;
+
   const scoreSpan = document.querySelector('.score span:last-child');
   if (scoreSpan) scoreSpan.textContent = total;
 
@@ -181,15 +294,17 @@ function registrarGol() {
   }
 }
 
+// ============================================================
+//  MENSAJE DESBLOQUEO
+// ============================================================
 function mostrarMensajePais(pais) {
   const wrapper = document.querySelector('.wrapper-msg');
   const titulo  = wrapper.querySelector('.dnsm-uno span');
   const texto   = wrapper.querySelector('.dnsm-dos span:last-child');
-  // const btnGo   = wrapper.querySelector('.dnsg-btn');
 
   const info = {
-    USA:    { titulo: 'U.S.A',    texto: '10 goals! You can now explore USA.' },
-    CANADA: { titulo: 'CANADA', texto: '25 goals! You can now explore Canada.' },
+    USA:    { titulo: 'U.S.A',  texto: '100 goals! You can now explore USA.' },
+    CANADA: { titulo: 'CANADA', texto: '200 goals! You can now explore Canada.' },
   };
 
   if (info[pais]) {
@@ -197,44 +312,65 @@ function mostrarMensajePais(pais) {
     texto.textContent  = info[pais].texto;
   }
 
-  // Mostrar mensaje
-  wrapper.style.display      = 'block';
+  if (roundActive) clearInterval(timerInterval);
+
+  wrapper.style.display       = 'block';
   wrapper.style.pointerEvents = 'all';
 
-  // Bloquear taps al juego pero NO al botón
+  const btnGo = wrapper.querySelector('.dnsg-btn');
+  btnGo.querySelector('span').textContent = 'CHECK OUT';
+  btnGo.onclick = () => { window.location.href = 'world.html'; };
+
+  const hideBtn = wrapper.querySelector('#hide');
+  hideBtn.onclick = () => {
+    wrapper.style.display       = 'none';
+    wrapper.style.pointerEvents = 'none';
+
+    if (roundActive && timeLeft > 0) {
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        actualizarTimerUI();
+        if (timeLeft <= 0) terminarRonda();
+      }, 1000);
+    }
+  };
+
   wrapper.addEventListener('touchend', e => {
-    if (e.target.closest('.dnsg-btn')) return;  // dejar pasar el botón
+    if (e.target.closest('.dnsg-btn, #hide, #hide span')) return;
     e.stopPropagation();
   }, { capture: true });
 
   wrapper.addEventListener('click', e => {
-    if (e.target.closest('.dnsg-btn')) return;  // dejar pasar el botón
+    if (e.target.closest('.dnsg-btn, #hide, #hide span')) return;
     e.stopPropagation();
   }, { capture: true });
 
-  const btnGo = wrapper.querySelector('.dnsg-btn');
-  btnGo.addEventListener('click', () => {
-    window.location.href = 'world.html';
-  });
-
-  // ── Sonido de desbloqueo ──
   if (window.isSfxOn?.() !== false) {
     const sfxUnlock = new Audio('resources/sfx/2.wav');
     sfxUnlock.play();
   }
 
-  // ── Partículas: tres ráfagas en distintos puntos ──
   setTimeout(() => {
     crearParticulas(window.innerWidth * 0.5, window.innerHeight * 0.3);
     setTimeout(() => crearParticulas(window.innerWidth * 0.2, window.innerHeight * 0.5), 250);
     setTimeout(() => crearParticulas(window.innerWidth * 0.8, window.innerHeight * 0.5), 450);
     setTimeout(() => crearParticulas(window.innerWidth * 0.5, window.innerHeight * 0.7), 650);
   }, 100);
-
-  // Cerrar
-  const hideBtn = wrapper.querySelector('#hide');
-  hideBtn.onclick = () => {
-    wrapper.style.display      = 'none';
-    wrapper.style.pointerEvents = 'none';
-  };
 }
+
+// ============================================================
+//  INIT
+// ============================================================
+document.querySelector('a-scene').addEventListener('loaded', () => {
+  const scene = document.querySelector('a-scene');
+  scene.setAttribute('tap-shoot', '');
+  scene.setAttribute('net-controller', '');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const totalGuardado = parseInt(localStorage.getItem('totalGoals') || '0');
+  const scoreSpan = document.querySelector('.score span:last-child');
+  if (scoreSpan) scoreSpan.textContent = totalGuardado;
+
+  actualizarTimerUI();
+});

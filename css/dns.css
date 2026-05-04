@@ -196,4 +196,71 @@ body {
     font-size: 18px; 
     font-weight: 500; 
     z-index: 999;
+
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.timer {
+    /* margin-top: -50px; */
+    flex: 1;
+    border-radius: 40px;
+
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    /* background-color: pink; */
+
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 60%;
+
+    /* width: 100%; */
+}
+.timer-wrapper{
+    display: flex;
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 40px;
+    position: relative;
+    padding: 20px;
+
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
+}
+.tw{
+    background-color: white;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 70px;
+    position: absolute;
+    padding: 7px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    
+}
+.tw-img{
+    background: linear-gradient(180deg, #8bd636, #7cc057);
+    border-radius: 100%;
+    
+}
+.tw-img > img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    /* position: absolute; */
+    object-fit: contain;
+    display: block;
+}
+.tw-00{
+    margin-top: 30px;
+    text-align: center;
+    color: white;
+    font-size: 42px;
 }
