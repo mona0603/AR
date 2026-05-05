@@ -13,19 +13,6 @@
 </head>
 <body>
 
-  <svg style="position: absolute; width: 0; height: 0;">
-    <defs>
-      <filter id="pixelate">
-        <feFlood flood-color="transparent" result="flood"/>
-        <feComposite in="flood" in2="SourceGraphic" operator="in" result="composite"/>
-        <feMorphology operator="dilate" radius="1" result="dilate"/>
-        <feGaussianBlur stdDeviation="0.5" result="blur"/>
-        <feColorMatrix type="saturate" values="0.5" result="saturate"/>
-        <feComposite in="saturate" in2="SourceGraphic" operator="over"/>
-      </filter>
-    </defs>
-  </svg>
-
   <!-- Botón volver -->
   <a id="close" href="world.html" data-sfx>
     <span><i class="fa-solid fa-chevron-left"></i></span>
@@ -34,20 +21,17 @@
   <!-- Contenedor principal del video (4:5 = 720x900) -->
   <div class="video-play">
 
-    <!-- El video/canvas se inyecta aquí -->
     <div id="video-wrapper"></div>
 
     <!-- Barra lateral superpuesta -->
     <div class="vc-sidebar">
 
-      <!-- Botón toggle -->
       <button class="vcb-toggle" id="sidebar-toggle" data-sfx>
         <div class="vcb-img">
           <i class="fa-solid fa-chevron-down"></i>
         </div>
       </button>
 
-      <!-- Menú de filtros -->
       <div class="vc-menu" id="vc-menu">
 
         <!-- Blur -->
@@ -71,24 +55,23 @@
           </div>
         </div>
 
-        <!-- Thermal -->
+        <!-- Termica -->
         <div class="vcb" data-effect="thermal" data-sfx>
           <div class="vcb-img">
             <img src="resources/UI/filtros/caliente.png" alt="Térmica">
           </div>
         </div>
 
-        <!-- Reset -->
-        <div class="vcb vcb--reset" id="vcb-reset" data-sfx>
-          <div class="vcb-img vcb-img--reset">
-            <img src="resources/UI/retry.png" alt="Restablecer">
+        <!-- Pastel (filtro personalizado) -->
+        <div class="vcb vcb--pastel" data-effect="pastel" data-sfx>
+          <div class="vcb-img vcb-img--pastel">
+            <img src="resources/UI/pastel-de-boda.png" alt="Pastel">
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- Nombre del filtro activo -->
     <div class="filters-name" id="filters-name"></div>
 
   </div>

@@ -17,6 +17,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 body::before {
@@ -27,7 +28,7 @@ body::before {
         linear-gradient(135deg, #ffffff2c 25%, transparent 25%) -50px 0,
         linear-gradient(225deg, #ffffff2c 25%, transparent 25%) -50px 0,
         linear-gradient(315deg, #ffffff2c 25%, transparent 25%),
-        linear-gradient(45deg, #ffffff2c 25%, transparent 25%);
+        linear-gradient(45deg,  #ffffff2c 25%, transparent 25%);
     background-size: 100px 100px;
     pointer-events: none;
     animation: gradient 10s linear infinite;
@@ -36,7 +37,7 @@ body::before {
 /* =============================================
    BOTÓN VOLVER
    ============================================= */
-#close{
+#close {
     position: absolute;
     top: 8px;
     left: 8px;
@@ -44,16 +45,14 @@ body::before {
     border-radius: 100%;
     font-size: 16px;
     box-shadow: 0 5px 2px rgba(0, 0, 0, 0.6);
-
     width: 45px;
-
-    
     aspect-ratio: 1/1;
     padding: 5px;
     z-index: 5;
     text-decoration: none;
+    display: flex;
 }
-#close span{
+#close span {
     background: linear-gradient(#ec7a7a, #e01c1c);
     flex: 1;
     aspect-ratio: 1/1;
@@ -66,17 +65,39 @@ body::before {
 
 /* =============================================
    CONTENEDOR DE VIDEO (4:5 = 720x900)
+   El contenedor respeta exactamente el ratio
+   del video. Se ajusta a la pantalla usando
+   la dimensión limitante (alto o ancho).
    ============================================= */
 .video-play {
-    position: relative;       /* ancla a la sidebar */
-    aspect-ratio: 4 / 5;
-    height: 80dvh;            /* ajusta según pantalla */
-    max-height: 900px;
-    background-color: white;   /* reemplazar con video/canvas */
+    aspect-ratio: 9 / 16;  /* 720×1280 = 9:16 */
+    width: min(100vw - 32px, 720px);
+    max-height: calc(100dvh - 60px);
+    /* background-color: #000; */
     border-radius: 15px;
-    overflow: hidden;         /* recorta la sidebar si hace falta */
+    overflow: hidden;
     z-index: 1;
-    width: 90%;
+
+    position: relative;
+
+}
+
+#video-wrapper {
+    /* background-color: red; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* El video o canvas dentro del wrapper
+   nunca debe recortarse ni deformarse      */
+#video-wrapper video,
+#video-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;  /* ← cover para que llene sin barras */
 }
 
 /* =============================================
@@ -85,23 +106,19 @@ body::before {
 .vc-sidebar {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 60px;              /* ancho colapsado */
-    height: 100%;             /* mismo alto que .video-play */
+    right: 0;
+    width: 60px;
+    height: 100%;
     z-index: 10;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 12px 0;
     gap: 10px;
-
-    /* background: rgba(30, 80, 200, 0.45);   azul semitransparente */
-    /* backdrop-filter: blur(4px); */
-    border-radius: 15px 0 0 15px;          /* solo esquinas izquierdas */
+    border-radius: 15px 0 0 15px;
+    /* background-color: yellow; */
 }
 
-/* Botón toggle (el que abre/cierra el menú) */
 .vcb-toggle {
     background: white;
     border: none;
@@ -114,22 +131,23 @@ body::before {
     flex-shrink: 0;
 }
 
-/* Menú de filtros (oculto por defecto, JS lo muestra) */
 .vc-menu {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-
-    overflow: hidden;
-    max-height: 0;            /* colapsado; JS cambia a auto o px */
-    transition: max-height 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
+
 .vc-menu.open {
-    max-height: 500px;        /* expandido */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
-/* Botones de filtro individuales */
 .vcb {
     width: 44px;
     aspect-ratio: 1/1;
@@ -140,6 +158,8 @@ body::before {
     flex-shrink: 0;
     cursor: pointer;
 }
+
+/* Gradiente base (verde) para todos los botones */
 .vcb-img {
     width: 100%;
     aspect-ratio: 1/1;
@@ -150,6 +170,7 @@ body::before {
     justify-content: center;
     overflow: hidden;
     color: white;
+    padding: 3px;
 }
 .vcb-img img {
     display: block;
@@ -157,6 +178,11 @@ body::before {
     aspect-ratio: 1/1;
     object-fit: contain;
 }
+
+/* Gradiente especial para el botón Pastel */
+/* .vcb-img--pastel {
+    background: linear-gradient(135deg, #f9c6e0 0%, #c9a0dc 100%);
+} */
 
 /* =============================================
    MENSAJE SIN VIDEO
@@ -184,18 +210,23 @@ body::before {
     opacity: .3;
 }
 
-/* Estado activo de un filtro */
-.vcb--active .vcb-img {
+/* =============================================
+   ESTADO ACTIVO
+   ============================================= */
+/* .vcb--active .vcb-img {
     background: linear-gradient(135deg, #ffda74 0%, #db7c0e 100%);
     box-shadow: 0 0 0 3px white;
 }
 
-/* Botón reset con gradiente naranja distinto */
-.vcb--reset .vcb-img--reset {
-    background: linear-gradient(135deg, #ffda74 0%, #db7c0e 100%);
-}
+/* Pastel activo: mantiene su propio color con ring 
+.vcb--pastel.vcb--active .vcb-img {
+    background: linear-gradient(135deg, #f9c6e0 0%, #c9a0dc 100%);
+    box-shadow: 0 0 0 3px white, 0 0 0 5px #c9a0dc;
+} */
 
-/* Etiqueta de filtro activo */
+/* =============================================
+   ETIQUETA FILTRO ACTIVO
+   ============================================= */
 .filters-name {
     position: absolute;
     bottom: 12px;
@@ -212,14 +243,49 @@ body::before {
     display: none;
 }
 
+/* PASTEL */
+
+#pastel-panel {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+    min-width: 180px;
+
+    /* box-shadow: 0 5px 2px rgba(0, 0, 0, 0.5); */
+}
+
+.pastel-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pastel-row span {
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.pastel-row input[type="range"] {
+    width: 100%;
+    accent-color: #318b30;
+    cursor: pointer;
+}
+
 /* =============================================
    ANIMACIÓN FONDO
    ============================================= */
 @keyframes gradient {
-    from {
-        background-position: -50px 0, -50px 0, 0px 0, 0px 0;
-    }
-    to {
-        background-position: 50px 100px, 50px 100px, 100px 100px, 100px 100px;
-    }
+    from { background-position: -50px 0,   -50px 0,   0px 0,   0px 0; }
+    to   { background-position:  50px 100px, 50px 100px, 100px 100px, 100px 100px; }
 }
