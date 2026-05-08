@@ -188,13 +188,13 @@ A 3D animated player viewer. Scan the AR marker to see a footballer model. Navig
 | Edin Dzeko | Bosnia & Herzegovina | Striker |
 | Akram Afif | Qatar | Winger |
 | Granit Xhaka | Switzerland | Midfielder |
-| Vinicius Jr | Brazil | Winger |
-| Achraf Hakimi | Morocco | Right Back |
-| Duckens Nazon | Haiti | Striker |
-| Andrew Robertson | Scotland | Left Back |
+| Christian Pulisic | EUA | Winger |
+| Miguel Almirón | Paraguay | Midfielder |
+| Mathew Ryan | Australia | Goalkeeper |
+| Hakan Çalhanoğlu | Turkey | Midfielder |
 
 **Features:**
-- Prev/Next navigation (only active when AR marker is detected)
+- Interactable model (only active when AR marker is detected)
 - Touch-rotate the 3D model
 - Tap the player's country flag to open 2 profile cards:
   - Card 1: Performance analysis
