@@ -78,13 +78,14 @@ FIPAFI AR Experience is a browser-based mobile AR application. No app installati
 │       └── ...
 │
 ├── targets/
-│   ├── dns.mind            # AR marker — minigame
+│   ├── tns.mind            # AR marker — minigame
 │   ├── worldmap.mind       # AR marker — world map
-│   ├── stars.mind          # AR marker — player viewer
+│   ├── countries.mind          # AR marker — player viewer
 │   └── planes/             # Country flag images for globe
 │       ├── mexico.png
 │       ├── usa.png
 │       └── canada.png
+│   └── countries/          # AR marker — Soccer teams logos
 │
 └── resources/
     ├── UI/                 # Icons and UI graphics
