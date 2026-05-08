@@ -262,9 +262,9 @@ world.html ──► video.html (city selection via URL params)
 
 | File | Used in | Description |
 |---|---|---|
-| `targets/dns.mind` | dns.html | Football minigame scene |
+| `targets/tns.mind` | dns.html | Football minigame scene |
 | `targets/worldmap.mind` | world.html | Interactive globe |
-| `targets/stars.mind` | stars.html | Animated player viewer |
+| `targets/countries.mind` | stars.html | Animated player viewer |
 
 Markers must be printed or displayed on screen. Good lighting and a flat, wrinkle-free surface improve tracking accuracy.
 
